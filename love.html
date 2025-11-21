@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>Happy Anniversary ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 🎨 Anniversary Theme */
+        :root{
+            --bg1:#fff9f0;
+            --bg2:#ffe4e1;
+            --accent:#ff2e4c;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;color:#2b1020; overflow-x: hidden;}
+
+        .page{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:0;
+            position:relative;
+            overflow:hidden;
+            text-align:center;
+        }
+
+        /* Background Hearts (Moved to Slideshow side) */
+        .bg-hearts{position:absolute;inset:0;pointer-events:none;z-index:0}
+        .bg-hearts i{
+            position:absolute; width:22px;height:22px; background:var(--accent);
+            transform:rotate(45deg); opacity:.4; animation:float linear infinite; border-radius:2px;
+        }
+        @keyframes float{
+            0%{transform:translateY(110vh) rotate(45deg);opacity:0}
+            100%{transform:translateY(-20vh) rotate(45deg);opacity:0}
+        }
+
+        /* 📸 SPLIT-SCREEN LAYOUT */
+        #split-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            height: 100vh;
+        }
+
+        /* LEFT SIDE: PHOTO SLIDESHOW */
+        #slideshow-background {
+            width: 50%;
+            position: relative;
+            overflow: hidden;
+            background-color: #FFFFFF;
+        }
+
+        .slideshow-photo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        /* RIGHT SIDE: CONTENT CARD */
+        #content-side {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+            /* IMPORTANT: Reduced padding to give more room to the inner card content */
+            padding: 10px;
+            box-shadow: -5px 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Main Card (Maximized for video) */
+        .card{
+            position:relative;
+            z-index:10;
+            width:100%;
+            max-width:650px; /* Increased max width to use more screen space */
+            padding:30px; /* Reduced padding inside the card itself */
+            margin: auto;
+        }
+
+        .top{
+            display:flex; flex-direction: column; gap:15px; align-items:center; justify-content:center;
+            padding-bottom:15px; border-bottom:1px solid rgba(0,0,0,0.05);
+        }
+
+        .photo{
+            width:120px;height:120px;border-radius:50%;overflow:hidden;border:4px solid white;
+            box-shadow:0 8px 20px rgba(0,0,0,0.15);
+        }
+        .photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+        h1{ font-family:'Great Vibes',cursive; font-size:40px;margin:0;color:#d12e4b;line-height: 1.2; }
+        p.lead{margin:10px 0 0;line-height:1.6;color:#552233;font-size:18px}
+
+        /* 🔴 RED HEART BUTTON */
+        .reveal-wrap{
+            margin-top:20px;
+            display:flex;
+            flex-direction: column;
+            align-items:center;
+            gap:10px;
+        }
+
+        .heart-btn{
+            width:90px;height:90px;border-radius:50%;display:grid;place-items:center;
+            background: linear-gradient(135deg, #ff2e4c, #c4001d);
+            border:4px solid #fff;
+            color:white;font-size:36px;
+            box-shadow:0 10px 30px rgba(255, 46, 76, 0.4);
+            cursor:pointer;
+            animation: pulse 2s infinite;
+        }
+        .heart-btn:active{transform:scale(.95)}
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .click-hint { font-size: 13px; font-weight: 600; color: #d12e4b; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Hidden Message */
+        .message{
+            margin-top:0; padding:0; max-height:0; overflow:hidden; opacity:0; transition:all 0.8s ease;
+        }
+        .message.show{
+            opacity:1; max-height:1000px; padding-top: 20px;
+        }
+        .message h2{font-family:'Great Vibes',cursive;margin:0 0 10px;font-size:32px;color:#d12e4b}
+        .message p{margin:0;color:#441122;line-height:1.7;font-size:18px; margin-bottom: 20px;}
+
+        /* Video Container (Maximized Size and Elevated Style) */
+        .video-wrap{
+            position:relative;
+            /* NEW: Adjusted aspect ratio for more vertical height (66.6% is 3:2 ratio) */
+            padding-top:66.6%;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            /* Elevated 3D shadow style */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.25), 0 0 0 4px #fff, 0 0 0 6px var(--accent);
+            background-color: #f0f0f0;
+        }
+        .video-wrap iframe{position:absolute;left:0;top:0;width:100%;height:100%;border:0}
+
+        /* 📱 MOBILE TWEAKS: Stack Vertically */
+        @media (max-width: 800px) {
+            #split-container {
+                flex-direction: column;
+                height: auto;
+            }
+            #content-side {
+                padding: 20px; /* Restore padding on mobile */
+            }
+            .card { padding: 20px; } /* Reduce padding on mobile */
+            #slideshow-background {
+                width: 100%;
+                height: 50vh;
+            }
+            #content-side {
+                width: 100%;
+                min-height: 50vh;
+            }
+            /* Reduce mobile shadow complexity */
+            .video-wrap { box-shadow: 0 5px 10px rgba(0,0,0,0.2), 0 0 0 2px #fff, 0 0 0 4px var(--accent); }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div id="split-container">
+
+        <div id="slideshow-background">
+            <div class="bg-hearts" id="bgHearts"></div>
+        </div>
+
+        <div id="content-side">
+            <div class="card" role="main">
+                <div class="top">
+                    <div class="photo" id="photo">
+                        <img src="https://i.imgur.com/1Q9Z1Zm.jpg" alt="Tsion & Gedion">
+                    </div>
+                    <div>
+                        <h1>To my Beloved Tsion 💖</h1>
+                        <p class="lead">Though miles lie between us, you are the constant song of my heart.</p>
+                    </div>
+                </div>
+
+                <div class="reveal-wrap">
+                    <button class="heart-btn" id="revealBtn">❤</button>
+                    <span class="click-hint">Click Heart to Open</span>
+                </div>
+
+                <div class="message" id="messagePanel">
+                    <h2>My Valentine, across the miles</h2>
+                    <p>
+                        My days are brighter because of you. Distance has only shown me how deep my love runs. Happy Anniversary, my Tsion. Forever yours, Gedion ❤️
+                    </p>
+
+                    <div class="video-wrap" id="videoWrap">
+                        <iframe id="ytplayer"
+                                src=""
+                                title="Ed Sheeran - Perfect"
+                                allow="autoplay; encrypted-media; fullscreen"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. 🖼️ PHOTO CONFIG
+    // The number 71 represents the highest index number you used.
+    const TOTAL_INDEX_COUNT = 71;
+    // Speed: 5.5 seconds per photo transition (5500 milliseconds)
+    const FADE_INTERVAL = 5500;
+
+    const photoList = [];
+    // CRITICAL FIX: Define the index numbers that DO NOT exist in your folder
+    const MISSING_INDICES = [6, 7, 8, 9];
+
+    for (let i = 1; i <= TOTAL_INDEX_COUNT; i++) {
+
+        // Skip the indices that don't exist
+        if (MISSING_INDICES.includes(i)) {
+            continue;
+        }
+
+        // Naming Format: Use the number directly without padding (e.g., 1.jpg, 10.jpg)
+        let filename = `${i}.jpg`;
+
+        photoList.push(filename);
+    }
+
+    // 2. ⚡ SLIDESHOW SETUP (Final Logic)
+    let photoElements = [];
+    let currentIndex = 0;
+    // The actual photo count used for the loop is the length of the list we just built (67 photos)
+    const ACTUAL_PHOTO_COUNT = photoList.length;
+
+    function setupSlideshow() {
+        const container = document.getElementById('slideshow-background');
+
+        // Load all photos into the container
+        photoList.forEach((url) => {
+            const img = document.createElement('img');
+            img.src = url;
+            img.className = 'slideshow-photo';
+            img.onerror = function() {
+                this.style.display='none';
+            };
+            container.appendChild(img);
+            photoElements.push(img);
+        });
+
+        // Start the slideshow right away
+        startSlideshowLoop();
+    }
+
+    function startSlideshowLoop() {
+        if (photoElements.length === 0) return;
+
+        // Initially show the first photo
+        photoElements[currentIndex].style.opacity = 1;
+
+        setInterval(() => {
+            // Hide current photo
+            photoElements[currentIndex].style.opacity = 0;
+
+            // Move to the next index, looping back to 0
+            currentIndex = (currentIndex + 1) % ACTUAL_PHOTO_COUNT;
+
+            // Show the next photo
+            photoElements[currentIndex].style.opacity = 1;
+
+        }, FADE_INTERVAL);
+    }
+
+    // Call the slideshow setup on page load
+    setupSlideshow();
+
+    // 3. ❤️ CLICK LOGIC
+    const revealBtn = document.getElementById('revealBtn');
+    const messagePanel = document.getElementById('messagePanel');
+    const ytIframe = document.getElementById('ytplayer');
+    let isRevealed = false;
+
+    revealBtn.addEventListener('click', () => {
+        if(!isRevealed){
+            isRevealed = true;
+            messagePanel.classList.add('show');
+            revealBtn.style.display = 'none';
+            document.querySelector('.click-hint').style.display = 'none';
+
+            // 🎵 CRITICAL FIX: START (17s) and END (281s = 4:41) added for perfect loop.
+            const videoURL = "https://www.youtube.com/embed/2Vv-BfVoq4g?autoplay=1&mute=0&controls=1&rel=0&loop=1&playlist=2Vv-BfVoq4g&playsinline=1&start=17&end=281";
+            ytIframe.src = videoURL;
+        }
+    });
+
+    // Background Hearts
+    (function makeHearts(){
+        const container = document.getElementById('bgHearts');
+        for(let i=0;i<20;i++){
+            const el = document.createElement('i');
+            el.style.left = (Math.random()*100)+'%';
+            el.style.top = (Math.random()*100)+'%';
+            el.style.animationDuration = (6+Math.random()*10) + 's';
+            el.style.opacity = 0.4;
+            el.style.animationDelay = (-Math.random()*10)+'s';
+            container.appendChild(el);
+        }
+    })();
+</script>
+</body>
+</html>

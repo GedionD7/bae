@@ -13,7 +13,6 @@
             --accent:#ff2e4c;
         }
         *{box-sizing:border-box}
-        /* Removed overflow-x: hidden to prevent issues when forcing split view on narrow screens */
         html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;color:#2b1020;}
 
         .page{
@@ -40,7 +39,6 @@
 
         /* 📸 SPLIT-SCREEN LAYOUT */
         #split-container {
-            /* IMPORTANT: Removed flex-direction: column from the media query to keep it side-by-side */
             display: flex;
             width: 100%;
             min-height: 100vh;
@@ -148,8 +146,6 @@
             background-color: #f0f0f0;
         }
         .video-wrap iframe{position:absolute;left:0;top:0;width:100%;height:100%;border:0}
-
-        /* 📱 MOBILE TWEAKS REMOVED HERE TO FORCE SPLIT VIEW */
     </style>
 </head>
 <body>
@@ -248,8 +244,11 @@
 
         setInterval(() => {
             photoElements[currentIndex].style.opacity = 0;
+
             currentIndex = (currentIndex + 1) % ACTUAL_PHOTO_COUNT;
+
             photoElements[currentIndex].style.opacity = 1;
+
         }, FADE_INTERVAL);
     }
     
@@ -268,8 +267,8 @@
             revealBtn.style.display = 'none';
             document.querySelector('.click-hint').style.display = 'none';
 
-            // 🎵 VIDEO URL: START (17s) and END (281s = 4:41) for perfect loop.
-            const videoURL = "https://www.youtube.com/embed/2Vv-BfVoq4g?autoplay=1&mute=0&controls=1&rel=0&loop=1&playlist=2Vv-BfVoq4g&playsinline=1&start=17&end=281";
+            // 🎵 VIDEO URL: REMOVED &playsinline=1 to fix mobile visibility issues.
+            const videoURL = "https://www.youtube.com/embed/2Vv-BfVoq4g?autoplay=1&mute=0&controls=1&rel=0&loop=1&playlist=2Vv-BfVoq4g&start=17&end=281";
             ytIframe.src = videoURL;
         }
     });

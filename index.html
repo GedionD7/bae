@@ -71,7 +71,7 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, var(--bg1), var(--bg2));
-            padding: 10px;
+            padding: 5px; /* CONDENSED */
             box-shadow: -5px 0 10px rgba(0,0,0,0.1);
         }
 
@@ -80,39 +80,39 @@
             position:relative;
             z-index:10;
             width:100%;
-            max-width:650px;
-            padding:30px;
+            max-width:600px; /* CONDENSED */
+            padding:20px; /* CONDENSED */
             margin: auto;
         }
 
         .top{
-            display:flex; flex-direction: column; gap:15px; align-items:center; justify-content:center;
+            display:flex; flex-direction: column; gap:10px; /* CONDENSED */ align-items:center; justify-content:center;
             padding-bottom:15px; border-bottom:1px solid rgba(0,0,0,0.05);
         }
 
         .photo{
-            width:120px;height:120px;border-radius:50%;overflow:hidden;border:4px solid white;
+            width:100px; /* CONDENSED */ height:100px; /* CONDENSED */ border-radius:50%;overflow:hidden;border:4px solid white;
             box-shadow:0 8px 20px rgba(0,0,0,0.15);
         }
         .photo img{width:100%;height:100%;object-fit:cover;display:block}
 
-        h1{ font-family:'Great Vibes',cursive; font-size:40px;margin:0;color:#d12e4b;line-height: 1.2; }
-        p.lead{margin:10px 0 0;line-height:1.6;color:#552233;font-size:18px}
+        h1{ font-family:'Great Vibes',cursive; font-size:36px; /* CONDENSED */ margin:0;color:#d12e4b;line-height: 1.2; }
+        p.lead{margin:10px 0 0;line-height:1.6;color:#552233;font-size:16px; /* CONDENSED */}
 
         /* 🔴 RED HEART BUTTON */
         .reveal-wrap{
-            margin-top:20px;
+            margin-top:15px; /* CONDENSED */
             display:flex;
             flex-direction: column;
             align-items:center;
-            gap:10px;
+            gap:8px; /* CONDENSED */
         }
 
         .heart-btn{
-            width:90px;height:90px;border-radius:50%;display:grid;place-items:center;
+            width:70px; /* CONDENSED */ height:70px; /* CONDENSED */ border-radius:50%;display:grid;place-items:center;
             background: linear-gradient(135deg, #ff2e4c, #c4001d);
             border:4px solid #fff;
-            color:white;font-size:36px;
+            color:white;font-size:32px; /* CONDENSED */
             box-shadow:0 10px 30px rgba(255, 46, 76, 0.4);
             cursor:pointer;
             animation: pulse 2s infinite;
@@ -123,17 +123,17 @@
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
-        .click-hint { font-size: 13px; font-weight: 600; color: #d12e4b; text-transform: uppercase; letter-spacing: 1px; }
+        .click-hint { font-size: 12px; /* CONDENSED */ font-weight: 600; color: #d12e4b; text-transform: uppercase; letter-spacing: 1px; }
 
         /* Hidden Message */
         .message{
             margin-top:0; padding:0; max-height:0; overflow:hidden; opacity:0; transition:all 0.8s ease;
         }
         .message.show{
-            opacity:1; max-height:1000px; padding-top: 20px;
+            opacity:1; max-height:1000px; padding-top: 15px; /* CONDENSED */
         }
-        .message h2{font-family:'Great Vibes',cursive;margin:0 0 10px;font-size:32px;color:#d12e4b}
-        .message p{margin:0;color:#441122;line-height:1.7;font-size:18px; margin-bottom: 20px;}
+        .message h2{font-family:'Great Vibes',cursive;margin:0 0 8px; /* CONDENSED */ font-size:28px; /* CONDENSED */ color:#d12e4b}
+        .message p{margin:0;color:#441122;line-height:1.6;font-size:16px; /* CONDENSED */ margin-bottom: 15px; /* CONDENSED */}
 
         /* Video Container (Maximized Size and Elevated Style) */
         .video-wrap{
@@ -142,6 +142,8 @@
             height: 0; 
             padding-top:66.6%;
             width: 100%;
+            /* ❗ CRITICAL FIX: Give the video wrapper a min-height to prevent collapse on mobile */
+            min-height: 200px; 
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 10px 20px rgba(0,0,0,0.25), 0 0 0 4px #fff, 0 0 0 6px var(--accent);
@@ -151,6 +153,7 @@
         /* 🌟 CRITICAL FIX: Ensure iframe renders correctly when parent is shown */
         .message.show .video-wrap {
              height: auto; /* Allow auto height calculation when revealed */
+             min-height: 200px; /* Keep the aggressive min-height */
         }
         
         .message.show .video-wrap iframe {
@@ -178,7 +181,7 @@
                     </div>
                     <div>
                         <h1>To my Beloved Tsion 💖</h1>
-                        <p class="lead">Though miles lie between us, you are the constant song of my heart.</p>
+                        <p class="lead">My constant song, across the miles.</p>
                     </div>
                 </div>
 
@@ -188,9 +191,9 @@
                 </div>
 
                 <div class="message" id="messagePanel">
-                    <h2>My Valentine, across the miles</h2>
+                    <h2>My Valentine</h2>
                     <p>
-                        My days are brighter because of you. Distance has only shown me how deep my love runs. Happy Anniversary, my Tsion. Forever yours, Gedion ❤️
+                        My love, distance has only shown me how deep my love runs. Happy Anniversary. Forever yours, Gedion ❤️
                     </p>
 
                     <div class="video-wrap" id="videoWrap">
@@ -212,7 +215,6 @@
     const TOTAL_INDEX_COUNT = 71; 
     const FADE_INTERVAL = 5500; 
     
-    // ❗ CRITICAL CHECK: Change the file extension here if your images are .PNG or .JPG
     const FILE_EXTENSION = ".jpg"; 
     
     const photoList = [];
@@ -236,7 +238,6 @@
     function setupSlideshow() {
         const container = document.getElementById('slideshow-background');
         
-        // Load all photos into the container
         photoList.forEach((url) => {
             const img = document.createElement('img');
             img.src = url;
@@ -258,11 +259,8 @@
 
         setInterval(() => {
             photoElements[currentIndex].style.opacity = 0;
-
             currentIndex = (currentIndex + 1) % ACTUAL_PHOTO_COUNT;
-
             photoElements[currentIndex].style.opacity = 1;
-
         }, FADE_INTERVAL);
     }
     
